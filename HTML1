@@ -1,0 +1,102 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Storytelling Resume Builder</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header class="bg-primary text-white text-center py-4">
+        <h1>Storytelling Resume Builder</h1>
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#resume-builder">Resume Builder</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#signup">Signup</a></li>
+                        <li class="nav-item"><a class="nav-link" href="#dashboard">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    
+    <section id="home" class="container text-center my-5">
+        <h2>Welcome to Storytelling Resume Builder</h2>
+        <p>Create resumes that tell your unique career story.</p>
+    </section>
+    
+    <section id="resume-builder" class="container my-5">
+        <h2 class="text-center">Build Your Resume</h2>
+        <p class="text-center">Choose a template and start crafting your story.</p>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="template1.jpg" class="card-img-top" alt="Template 1">
+                    <div class="card-body text-center">
+                        <button class="btn btn-primary">Use Template</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="template2.jpg" class="card-img-top" alt="Template 2">
+                    <div class="card-body text-center">
+                        <button class="btn btn-primary">Use Template</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="template3.jpg" class="card-img-top" alt="Template 3">
+                    <div class="card-body text-center">
+                        <button class="btn btn-primary">Use Template</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Signup Form -->
+    <section id="signup" class="container my-5">
+        <h2 class="text-center">Sign Up</h2>
+        <form id="signup-form" class="text-center">
+            <input type="text" id="signup-name" class="form-control mb-2" placeholder="Name" required>
+            <input type="email" id="signup-email" class="form-control mb-2" placeholder="Email" required>
+            <input type="password" id="signup-password" class="form-control mb-2" placeholder="Password" required>
+            <button type="submit" class="btn btn-success">Sign Up</button>
+        </form>
+    </section>
+
+    <!-- Login Form -->
+    <section id="login" class="container my-5">
+        <h2 class="text-center">Login</h2>
+        <form id="login-form" class="text-center">
+            <input type="email" id="login-email" class="form-control mb-2" placeholder="Email" required>
+            <input type="password" id="login-password" class="form-control mb-2" placeholder="Password" required>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+    </section>
+    
+    <!-- Dashboard (User Resumes) -->
+    <section id="dashboard" class="container my-5">
+        <h2 class="text-center">Dashboard</h2>
+        <p class="text-center">Your saved resumes:</p>
+        <ul id="resume-list" class="list-group"></ul>
+    </section>
+    
+    <footer class="bg-dark text-white text-center py-3">
+        <p>&copy; 2025 Storytelling Resume Builder. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
