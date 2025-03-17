@@ -1,0 +1,73 @@
+const express = require('express');
+const mysql = require('mysql');
+const cors = require('cors');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
+    database: 'resume_builder'
+});
+
+db.connect(err => {
+    if (err) {
+        console.error('Database connection failed:', err);
+    } else {
+        console.log('Connected to MySQL database');
+    }
+});
+
+
+app.post('/signup', async (req, res) => {
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const sql = 'INSERT INTO users (name, email, password) VALUES (?, ?, ?)';
+    db.query(sql, [name, email, hashedPassword], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.status(201).json({ message: 'User registered successfully' });
+    });
+});
+
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+    const sql = 'SELECT * FROM users WHERE email = ?';
+    db.query(sql, [email], async (err, results) => {
+        if (err || results.length === 0) return res.status(400).json({ error: 'User not found' });
+        const user = results[0];
+        const isValid = await bcrypt.compare(password, user.password);
+        if (!isValid) return res.status(400).json({ error: 'Invalid credentials' });
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.json({ token, user: { id: user.id, name: user.name, email: user.email } });
+    });
+});
+
+
+app.post('/resume', (req, res) => {
+    const { user_id, title, content } = req.body;
+    const sql = 'INSERT INTO resumes (user_id, title, content) VALUES (?, ?, ?)';
+    db.query(sql, [user_id, title, content], (err, result) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json({ message: 'Resume saved successfully' });
+    });
+});
+
+
+app.get('/resumes/:user_id', (req, res) => {
+    const sql = 'SELECT * FROM resumes WHERE user_id = ?';
+    db.query(sql, [req.params.user_id], (err, results) => {
+        if (err) return res.status(500).json({ error: err.message });
+        res.json(results);
+    });
+});
+
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
