@@ -1,0 +1,59 @@
+const backendUrl = "http://localhost:5000";
+
+// Handle Signup
+document.querySelector("#signup-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = document.querySelector("#signup-name").value;
+    const email = document.querySelector("#signup-email").value;
+    const password = document.querySelector("#signup-password").value;
+
+    const response = await fetch(`${backendUrl}/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+    });
+
+    const data = await response.json();
+    alert(data.message);
+});
+
+// Handle Login
+document.querySelector("#login-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const email = document.querySelector("#login-email").value;
+    const password = document.querySelector("#login-password").value;
+
+    const response = await fetch(`${backendUrl}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+    if (data.token) {
+        localStorage.setItem("token", data.token);
+        alert("Login successful!");
+        fetchResumes();
+    } else {
+        alert(data.error);
+    }
+});
+
+// Fetch User Resumes
+async function fetchResumes() {
+    const token = localStorage.getItem("token");
+    const response = await fetch(`${backendUrl}/resumes/1`, {  // Replace with actual user ID
+        headers: { "Authorization": `Bearer ${token}` }
+    });
+
+    const resumes = await response.json();
+    const resumeList = document.querySelector("#resume-list");
+    resumeList.innerHTML = "";
+
+    resumes.forEach(resume => {
+        const li = document.createElement("li");
+        li.className = "list-group-item";
+        li.textContent = resume.title;
+        resumeList.appendChild(li);
+    });
+}
